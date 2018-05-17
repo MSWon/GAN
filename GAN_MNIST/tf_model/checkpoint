@@ -1,0 +1,2 @@
+model_checkpoint_path: "C:\\Users\\jbk48\\OneDrive\\\353\260\224\355\203\225 \355\231\224\353\251\264\\tf_model\\GAN_model.ckpt"
+all_model_checkpoint_paths: "C:\\Users\\jbk48\\OneDrive\\\353\260\224\355\203\225 \355\231\224\353\251\264\\tf_model\\GAN_model.ckpt"
