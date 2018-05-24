@@ -1,2 +1,2 @@
 # GAN
-GAN with Tensorflow
+Basic GAN with Tensorflow
