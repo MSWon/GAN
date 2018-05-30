@@ -55,4 +55,4 @@ class GAN():
         tf.summary('G_loss', self.G_loss)
         merged = tf.summary.merge_all()
         
-        return self.D_loss,self.G_loss
+        return self.D_loss,self.G_loss,merged
