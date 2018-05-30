@@ -51,4 +51,8 @@ class GAN():
 
         self.D_loss = tf.reduce_mean(tf.log(self.Discriminator(X))+tf.log(1-self.Discriminator(self.Generator(Z))))
         self.G_loss = tf.reduce_mean(tf.log(self.Discriminator(self.Generator(Z))))
+        tf.summary('D_loss', self.D_loss)
+        tf.summary('G_loss', self.G_loss)
+        merged = tf.summary.merge_all()
+        
         return self.D_loss,self.G_loss
