@@ -27,7 +27,7 @@ X = tf.placeholder(tf.float32, [None, 784])   # 28 x 28 image
 Z = tf.placeholder(tf.float32, [None, 128])  ## Random noise
 
 gan = GAN_MNIST.GAN()
-D_loss,G_loss = gan.model_build(X,Z)
+D_loss,G_loss,merged = gan.model_build(X,Z)
 
 total_var = tf.trainable_variables()
 D_var_list = [var for var in total_var if 'Discriminator' in var.name]
@@ -50,8 +50,11 @@ with tf.Session() as sess:
 
     start_time = time.time()
     sess.run(init)
+    train_writer = tf.summary.FileWriter('C:\\Users\\jbk48\\OneDrive\\바탕 화면\\tf_model', sess.graph)
+    i = 0
     # Training cycle
     for epoch in range(training_epochs):
+        
         dl, gl = 0., 0.
         total_batch = int(mnist.train.num_examples/batch_size)
 
@@ -63,9 +66,11 @@ with tf.Session() as sess:
             # Fit training using batch data
             sess.run(D_optimizer, feed_dict={X: batch_x, Z: batch_z})
             sess.run(G_optimizer, feed_dict={Z: batch_z})
+            summary = sess.run(merged)
             dl += sess.run(D_loss, feed_dict={X: batch_x, Z: batch_z})/total_batch
             gl += sess.run(G_loss, feed_dict={Z: batch_z})/total_batch
-
+            train_writer.add_summary(summary, i)
+            i += 1
         # Display logs per epoch step
         if epoch % display_step == 0:
             print("========= Epoch : {} ==========".format(epoch+1))
@@ -88,3 +93,7 @@ with tf.Session() as sess:
     print("%dminutes %dseconds" % (minute,second))
     save_path = saver.save(sess, modelName)
     print ('save_path',save_path)
+    train_writer.close()
+    
+    ## cmd 실행 -> cd C:\\Users\\jbk48\\OneDrive\\바탕 화면\\tf_model
+    ## tensorboard --logdir=./ 
